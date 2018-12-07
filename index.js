@@ -13,9 +13,9 @@ app.get('/', function(req, res) {
   res.send('Hello Youtube')
 });
 
-app.get('/webhook', function(req, res) {
+app.get('/webhook/', function(req, res) {
   if(req.query['hub.verify_token'] === ('197fp')) {
-    res.send(req.query['hub.challenger']);
+    res.send(req.query['hub.challenge']);
   }
   res.send('No entry');
 });
