@@ -24,35 +24,36 @@ app.get('/webhook/', function(req, res) {
   res.send('No entry');
 });
 
-app.post('/webhook/', function(req, res) {
-  var messenging_events = req.body.entry[0].messaging;
-  for (var i = 0; i < messaging_events.length; i++) {
-    var event = messaging_events[i];
-    var sender = event.sender.id;
-    if (event.message && event.message.text) {
-      var text = event.message.text;
-      sendText(sender, "Text echo: ", text.substring(0, 100))
-    }
-  }
-});
+app.post('/webhook', (req, res) => {
 
-function sendText(sender, text) {
-  request({
-    url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access_token : access},
-    method: 'POST',
-    json: {
-      recipient : {id: sender},
-      message : messageData
-    }
-  }, function(err, response, body) {
-    if (err) {
-      console.log("sending error", err);
-    } else if (response.body.error) {
-      console.log("respond body error", response.body.error);
-    }
-  });
-}
+  // Parse the request body from the POST
+  let body = req.body;
+
+  // Check the webhook event is from a Page subscription
+  if (body.object === 'page') {
+
+    // Iterate over each entry - there may be multiple if batched
+    body.entry.forEach(function(entry) {
+
+      // Gets the body of the webhook event
+      let webhook_event = entry.messaging[0];
+      console.log(webhook_event);
+
+      // Get the sender PSID
+      let sender_psid = webhook_event.sender.id;
+      console.log('Sender PSID: ' + sender_psid);
+
+    });
+
+    // Return a '200 OK' response to all events
+    res.status(200).send('EVENT_RECEIVED');
+
+  } else {
+    // Return a '404 Not Found' if event is not from a page subscription
+    res.sendStatus(404);
+  }
+
+});
 
 app.listen(process.env.PORT || 5000, function () {
   console.log('App listening on port ' + app.get('port'))
