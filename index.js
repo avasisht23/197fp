@@ -5,8 +5,8 @@ var mongoose = require('mongoose')
 
 var app = express();
 
-const token = process.env.FB_VERIFY_TOKEN;
-const access = process.env.FB_ACCESS_TOKEN;
+var token = process.env.FB_VERIFY_TOKEN;
+var access = process.env.FB_ACCESS_TOKEN;
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -25,7 +25,7 @@ app.get('/webhook/', function(req, res) {
 });
 
 app.post('/webhook/', function(req, res) {
-  var messenging_events = req.body.entry[0].messaging_events;
+  var messenging_events = req.body.entry[0].messaging;
   for (var i = 0; i < messaging_events.length; i++) {
     var event = messaging_events[i];
     var sender = event.sender.id;
@@ -39,7 +39,7 @@ app.post('/webhook/', function(req, res) {
 function sendText(sender, text) {
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access, token},
+    qs: {access_token : access},
     method: 'POST',
     json: {
       recipient : {id: sender},
