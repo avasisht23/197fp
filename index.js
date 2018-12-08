@@ -92,12 +92,12 @@ function handleMessage(sender_psid, received_message) {
               {
                 "type": "postback",
                 "title": "Create Group!",
-                "payload": "Create",
+                "payload": "Create Group!",
               },
               {
                 "type": "postback",
                 "title": "Join Group!",
-                "payload": "Join",
+                "payload": "Join Group!",
               }
             ],
           }]
@@ -117,9 +117,9 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'yes') {
+  if (payload === 'Create Group!') {
     response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
+  } else if (payload === 'Join Group!') {
     response = { "text": "Oops, try sending another image." }
   }
   // Send the message to acknowledge the postback
