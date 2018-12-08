@@ -136,10 +136,7 @@ function callSendAPI(sender_psid, response, metadata) {
     "recipient": {
       "id": sender_psid
     },
-    "message": {
-      "text": response,
-      "metadata": metadata
-    }
+    "message": {...response, ...{"metadata": metadata}}
   }
 
   // Send the HTTP request to the Messenger Platform
