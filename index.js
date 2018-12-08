@@ -29,7 +29,7 @@ app.get('/webhook/', function(req, res) {
 });
 
 app.post('/webhook', (req, res) => {
-
+  console.log("webhook data", req.body)
   // Parse the request body from the POST
   let body = req.body;
 
@@ -120,7 +120,7 @@ function handlePostback(sender_psid, received_postback) {
 
   } else if (payload === 'Join Group!') {
     response = { "text": "What is the group id?" }
-    
+
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
