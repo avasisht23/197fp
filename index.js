@@ -29,7 +29,7 @@ app.get('/webhook/', function(req, res) {
 });
 
 app.post('/webhook', (req, res) => {
-
+  console.log("fb received data", req.body)
   // Parse the request body from the POST
   let body = req.body;
 
