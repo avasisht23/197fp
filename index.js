@@ -68,7 +68,6 @@ app.post('/webhook', (req, res) => {
 
 function handleMessage(sender_psid, received_message) {
   let response;
-  let metadata;
   // Checks if the message contains text
   if (received_message.text) {
     // Create the payload for a basic text message, which
@@ -76,7 +75,6 @@ function handleMessage(sender_psid, received_message) {
     response = {
       "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
     }
-    metadata = "text"
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -105,7 +103,6 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     }
-    metadata = "attachment"
   }
 
   // Send the response message
@@ -114,29 +111,28 @@ function handleMessage(sender_psid, received_message) {
 
 function handlePostback(sender_psid, received_postback) {
   let response;
-  let metadata;
   // Get the payload for the postback
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
   if (payload === 'Create Group!') {
     response = { "text": "Give me a group id!" }
-    metadata = "create: user will send id"
+
   } else if (payload === 'Join Group!') {
     response = { "text": "What is the group id?" }
-    metadata = "join: user will send id"
+    
   }
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response, metadata);
+  callSendAPI(sender_psid, response);
 }
 
-function callSendAPI(sender_psid, response, metadata) {
+function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     "recipient": {
       "id": sender_psid
     },
-    "message": {...response, ...{"metadata": metadata}}
+    "message": response
   }
 
   // Send the HTTP request to the Messenger Platform
