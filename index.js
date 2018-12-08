@@ -5,6 +5,8 @@ var mongoose = require('mongoose')
 var request = require('request')
 var app = express();
 
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
+
 var token = process.env.FB_VERIFY_TOKEN;
 var access = process.env.FB_ACCESS_TOKEN;
 
