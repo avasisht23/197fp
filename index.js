@@ -5,6 +5,8 @@ var mongoose = require('mongoose')
 var request = require('request')
 var app = express();
 
+var Groups = require('./models/groups');
+
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
 
 var token = process.env.FB_VERIFY_TOKEN;
@@ -85,17 +87,17 @@ function handleMessage(sender_psid, received_message) {
           "elements": [{
             "title": "Is this the right picture?",
             "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
+            //"image_url": attachment_url,
             "buttons": [
               {
                 "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
+                "title": "Create Group!",
+                "payload": "Create",
               },
               {
                 "type": "postback",
-                "title": "No!",
-                "payload": "no",
+                "title": "Join Group!",
+                "payload": "Join",
               }
             ],
           }]
