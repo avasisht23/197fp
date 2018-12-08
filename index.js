@@ -68,7 +68,7 @@ app.post('/webhook', (req, res) => {
 
 function handleMessage(sender_psid, received_message) {
   let response;
-
+  let metadata;
   // Checks if the message contains text
   if (received_message.text) {
     // Create the payload for a basic text message, which
@@ -76,6 +76,7 @@ function handleMessage(sender_psid, received_message) {
     response = {
       "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
     }
+    metadata = "text"
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -104,6 +105,7 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     }
+    metadata = "attachment"
   }
 
   // Send the response message
@@ -128,7 +130,7 @@ function handlePostback(sender_psid, received_postback) {
   callSendAPI(sender_psid, response, metadata);
 }
 
-function callSendAPI(sender_psid, response) {
+function callSendAPI(sender_psid, response, metadata) {
   // Construct the message body
   let request_body = {
     "recipient": {
