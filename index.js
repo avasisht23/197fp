@@ -131,7 +131,7 @@ function handleMessage(sender_psid, received_message) {
     }
     if (userInfo[sender_psid].wantsToJoinGroup) {
       var groupID = received_message.text;
-      var questionDb = Group.findOneAndUpdate({ "id" : groupID }, { $pop: { "members" : sender_psid } }, function (err, results) {
+      var questionDb = Group.findOneAndUpdate({ "id" : groupID }, { $pop: { "members" : 1 } }, function (err, results) {
         if (!err) {
             console.log("joined group!")
             userInfo[sender_psid].wantsToJoinGroup = false;
