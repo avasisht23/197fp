@@ -119,27 +119,35 @@ function handleMessage(sender_psid, received_message) {
     }
     else if (userInfo[sender_psid].wantsToCreateGroup) {
       var groupID = received_message.text;
-      var dbQ = new Group({ id: groupID, owner: sender_psid, members: [sender_psid] })
-      dbQ.save(function (err, result) {
-        if (!err) {
-          console.log("results", result)
-          console.log("created group!")
-          userInfo[sender_psid].wantsToCreateGroup = false;
-          response = {
-            "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
-          }
-          // Send the response message
-          callSendAPI(sender_psid, response);
+      Group.find( { id: groupID}, function (err, result) {
+        console.log("find result", result)
+        if (!result) {
+          var dbQ = new Group({ id: groupID, owner: sender_psid, members: [sender_psid] })
+          dbQ.save(function (err, results) {
+            if (!err) {
+              console.log("created group!")
+              userInfo[sender_psid].wantsToCreateGroup = false;
+              response = {
+                "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
+              }
+              // Send the response message
+              callSendAPI(sender_psid, response);
+            } else {
+              console.log(err);
+              response = {
+                "text": `Error creating group. Reinitiate conversation by typing "Hello"`
+              }
+              // Send the response message
+              callSendAPI(sender_psid, response);
+            }
+          })
         } else {
-          console.log(err);
+          console.log("Group already exists!")
           response = {
-            "text": `Error creating group. Reinitiate conversation by typing "break"`
+            "text": `Group exists already. Reinitiate convo by typing "Hello" and join it!`
           }
-          // Send the response message
-          callSendAPI(sender_psid, response);
         }
       })
-
     }
     else if (userInfo[sender_psid].wantsToJoinGroup) {
       var groupID = received_message.text;
@@ -154,7 +162,7 @@ function handleMessage(sender_psid, received_message) {
             } else {
               console.log("Group not found!")
               response = {
-                "text": `Group not found! Try again and spell it right! Or say "break" to restart convo`
+                "text": `Group not found! Try again and spell it right! Or say "Hello" to restart convo`
               }
             }
 
