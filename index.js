@@ -124,9 +124,24 @@ function handleMessage(sender_psid, received_message) {
           next(err);
         }
       })
-
+      userInfo[sender_psid].wantsToCreateGroup = false;
       response = {
         "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
+      }
+    }
+    if (userInfo[sender_psid].wantsToJoinGroup) {
+      var groupID = received_message.text;
+      var questionDb = Group.findOneAndUpdate({ { "id" : groupID }, { $addToSet: { "members" : sender_psid } } }, function (err, results) {
+        if (!err) {
+            console.log("joined group!")
+        } else {
+            next(err);
+        }
+      })
+
+      userInfo[sender_psid].wantsToJoinGroup = false;
+      response = {
+        "text": `You have joined group: "${received_message.text}". Add a todo or Check todos!`
       }
     }
   } else if (received_message.attachments) {
