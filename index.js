@@ -108,11 +108,23 @@ function handleMessage(sender_psid, received_message) {
                   "type": "postback",
                   "title": "Join Group!",
                   "payload": "Join Group!",
+                }
+              ],
+            },
+            {
+              "title": "OR",
+              "subtitle": "Manage Todos",
+              //"image_url": attachment_url,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": "Add Todo!",
+                  "payload": "Add Todo!",
                 },
                 {
                   "type": "postback",
-                  "title": "Manage Todos!",
-                  "payload": "Manage Todos!",
+                  "title": "Get Todos!",
+                  "payload": "Get Todos!",
                 }
               ],
             }]
