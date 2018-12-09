@@ -7,7 +7,7 @@ var app = express();
 
 var userInfo = [];
 
-var Groups = require('./models/groups');
+var Group = require('./models/groups');
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
 
@@ -51,10 +51,10 @@ app.post('/webhook', (req, res) => {
 
       if (!userInfo[sender_psid]) {
         userInfo[sender_psid] = {
-          wantsToMakeGroup: false,
+          wantsToCreateGroup: false,
           wantsToJoinGroup: false,
-          inGroup: false,
-          wantsToLeaveGrop: false,
+          wantsToLeaveGroup: false,
+          wantsToAddTodos: false,
           wantsToGetTodos: false
         }
       }
@@ -114,6 +114,21 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     }
+    if (userInfo[sender_psid].wantsToCreateGroup) {
+      var groupID = received_message.text;
+      var dbQ = new Group({ id: groupID, owner: sender_psid, members: [sender_psid] })
+      dbQ.save(function (err, result) {
+        if (!err) {
+          console.log("created group!")
+        } else {
+          next(err);
+        }
+      })
+
+      response = {
+        "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
+      }
+    }
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -156,10 +171,12 @@ function handlePostback(sender_psid, received_postback) {
   // Set the response based on the postback payload
   if (payload === 'Create Group!') {
     response = { "text": "Give me a group id!" }
-
+    userInfo[sender_psid].wantsToCreateGroup = true;
+    console.log("wants to create", userInfo[sender_psid])
   } else if (payload === 'Join Group!') {
     response = { "text": "What is the group id?" }
-
+    userInfo[sender_psid].wantsToJoinGroup = true;
+    console.log("wants to join", userInfo[sender_psid])
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
