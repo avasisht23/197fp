@@ -235,6 +235,23 @@ function handleMessage(sender_psid, received_message) {
                           "payload": "Get Todos!",
                         }
                       ],
+                    },
+                    {
+                      // "title": "Welcome!",
+                      // "subtitle": "Select what you'd like to do...",
+                      //"image_url": attachment_url,
+                      "buttons": [
+                        {
+                          "type": "postback",
+                          "title": "Add Todo!",
+                          "payload": "Add Todo!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Get Todos!",
+                          "payload": "Get Todos!",
+                        }
+                      ],
                     }]
                   }
                 }
