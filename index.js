@@ -113,6 +113,11 @@ function handleMessage(sender_psid, received_message) {
                   "type": "postback",
                   "title": "Add Todo!",
                   "payload": "Add Todo!",
+                },
+                {
+                  "type": "postback",
+                  "title": "Get Todos!",
+                  "payload": "Get Todos!",
                 }
               ],
             }]
@@ -141,8 +146,8 @@ function handleMessage(sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": `You have created group: "${received_message.text}".`,
-                      "subtitle": "Select one of the following to do next.",
+                      "title": "Welcome!",
+                      "subtitle": "Select what you'd like to do...",
                       //"image_url": attachment_url,
                       "buttons": [
                         {
@@ -205,8 +210,8 @@ function handleMessage(sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": `You have joined group: "${received_message.text}".`,
-                      "subtitle": "Select one of the following to do next.",
+                      "title": "Welcome!",
+                      "subtitle": "Select what you'd like to do...",
                       //"image_url": attachment_url,
                       "buttons": [
                         {
@@ -260,37 +265,6 @@ function handleMessage(sender_psid, received_message) {
       callSendAPI(sender_psid, response);
     }
   }
-  // else if (received_message.attachments) {
-  //   // Get the URL of the message attachment
-  //   let attachment_url = received_message.attachments[0].payload.url;
-  //   response = {
-  //     "attachment": {
-  //       "type": "template",
-  //       "payload": {
-  //         "template_type": "generic",
-  //         "elements": [{
-  //           "title": "Is this the right picture?",
-  //           "subtitle": "Tap a button to answer.",
-  //           //"image_url": attachment_url,
-  //           "buttons": [
-  //             {
-  //               "type": "postback",
-  //               "title": "Create Group!",
-  //               "payload": "Create Group!",
-  //             },
-  //             {
-  //               "type": "postback",
-  //               "title": "Join Group!",
-  //               "payload": "Join Group!",
-  //             }
-  //           ],
-  //         }]
-  //       }
-  //     }
-  //   }
-  //   // Send the response message
-  //   callSendAPI(sender_psid, response);
-  // }
 }
 
 function handlePostback(sender_psid, received_postback) {
