@@ -146,6 +146,7 @@ function handleMessage(sender_psid, received_message) {
           response = {
             "text": `Group exists already. Reinitiate convo by typing "Hello" and join it!`
           }
+          callSendAPI(sender_psid, response);
         }
       })
     }
