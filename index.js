@@ -108,24 +108,13 @@ function handleMessage(sender_psid, received_message) {
                   "type": "postback",
                   "title": "Join Group!",
                   "payload": "Join Group!",
-                }
-              ],
-            },
-            {
-              "title": "OR",
-              "subtitle": "Manage Todos",
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": "Add Todo!",
-                  "payload": "Add Todo!",
                 },
                 {
                   "type": "postback",
-                  "title": "Get Todos!",
-                  "payload": "Get Todos!",
+                  "title": "Manage Todos!",
+                  "payload": "Manage Todos!",
                 }
-              ]
+              ],
             }]
           }
         }
@@ -168,13 +157,8 @@ function handleMessage(sender_psid, received_message) {
                         },
                         {
                           "type": "postback",
-                          "title": "Add Todo!",
-                          "payload": "Add Todo!",
-                        },
-                        {
-                          "type": "postback",
-                          "title": "Get Todos!",
-                          "payload": "Get Todos!",
+                          "title": "Manage Todos!",
+                          "payload": "Manage Todos!",
                         }
                       ],
                     }]
@@ -232,13 +216,8 @@ function handleMessage(sender_psid, received_message) {
                         },
                         {
                           "type": "postback",
-                          "title": "Add Todo!",
-                          "payload": "Add Todo!",
-                        },
-                        {
-                          "type": "postback",
-                          "title": "Get Todos!",
-                          "payload": "Get Todos!",
+                          "title": "Manage Todos!",
+                          "payload": "Manage Todos!",
                         }
                       ],
                     }]
