@@ -112,19 +112,21 @@ function handleMessage(sender_psid, received_message) {
               ],
             },
             {
-            "title": "OR",
-            "subtitle": "Manage Todos",
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Add Todo!",
-                "payload": "Add Todo!",
-              },
-              {
-                "type": "postback",
-                "title": "Get Todos!",
-                "payload": "Get Todos!",
-              }]
+              "title": "OR",
+              "subtitle": "Manage Todos",
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": "Add Todo!",
+                  "payload": "Add Todo!",
+                },
+                {
+                  "type": "postback",
+                  "title": "Get Todos!",
+                  "payload": "Get Todos!",
+                }
+              ]
+            }]
           }
         }
       }
