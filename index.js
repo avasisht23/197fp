@@ -122,7 +122,7 @@ function handleMessage(sender_psid, received_message) {
       var dbQ = new Group({ id: groupID, owner: sender_psid, members: [sender_psid] })
       dbQ.save(function (err, result) {
         if (!err) {
-          console.log("results", results)
+          console.log("results", result)
           console.log("created group!")
           userInfo[sender_psid].wantsToCreateGroup = false;
           response = {
