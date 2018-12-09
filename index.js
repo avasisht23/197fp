@@ -122,6 +122,7 @@ function handleMessage(sender_psid, received_message) {
       var dbQ = new Group({ id: groupID, owner: sender_psid, members: [sender_psid] })
       dbQ.save(function (err, result) {
         if (!err) {
+          console.log("results", results)
           console.log("created group!")
           userInfo[sender_psid].wantsToCreateGroup = false;
           response = {
@@ -132,7 +133,7 @@ function handleMessage(sender_psid, received_message) {
         } else {
           console.log(err);
           response = {
-            "text": `Error creating group. Reinitiate conversation by typing "Hello"`
+            "text": `Error creating group. Reinitiate conversation by typing "break"`
           }
           // Send the response message
           callSendAPI(sender_psid, response);
@@ -144,12 +145,19 @@ function handleMessage(sender_psid, received_message) {
       var groupID = received_message.text;
       var questionDb = Group.findOneAndUpdate({ "id" : groupID }, { $addToSet: { "members" : sender_psid } }, function (err, results) {
         if (!err) {
-            console.log('results', results)
-            console.log("joined group!")
-            userInfo[sender_psid].wantsToJoinGroup = false;
-            response = {
-              "text": `You have joined group: "${received_message.text}". Add a todo or Check todos!`
+            if (results) {
+              console.log("joined group!")
+              userInfo[sender_psid].wantsToJoinGroup = false;
+              response = {
+                "text": `You have joined group: "${received_message.text}". Add a todo or Check todos!`
+              }
+            } else {
+              console.log("Group not found!")
+              response = {
+                "text": `Group not found! Try again and spell it right! Or say "break" to restart convo`
+              }
             }
+
             // Send the response message
             callSendAPI(sender_psid, response);
         } else {
