@@ -237,8 +237,8 @@ function handleMessage(sender_psid, received_message) {
                       ],
                     },
                     {
-                      // "title": "Welcome!",
-                      // "subtitle": "Select what you'd like to do...",
+                      "title": "OR",
+                      "subtitle": "Select what you'd like to do...",
                       //"image_url": attachment_url,
                       "buttons": [
                         {
