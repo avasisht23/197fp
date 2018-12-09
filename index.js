@@ -121,7 +121,7 @@ function handleMessage(sender_psid, received_message) {
       var groupID = received_message.text;
       Group.find( { id: groupID}, function (err, result) {
         console.log("find result", result)
-        if (!result) {
+        if (result.length === 0) {
           var dbQ = new Group({ id: groupID, owner: sender_psid, members: [sender_psid] })
           dbQ.save(function (err, results) {
             if (!err) {
@@ -156,7 +156,7 @@ function handleMessage(sender_psid, received_message) {
       var groupID = received_message.text;
       var questionDb = Group.findOneAndUpdate({ "id" : groupID }, { $addToSet: { "members" : sender_psid } }, function (err, results) {
         if (!err) {
-            if (results.length === 0) {
+            if (results) {
               console.log("joined group!")
               userInfo[sender_psid].wantsToJoinGroup = false;
               response = {
