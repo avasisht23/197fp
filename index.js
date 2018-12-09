@@ -5,6 +5,8 @@ var mongoose = require('mongoose')
 var request = require('request')
 var app = express();
 
+var userInfo = [];
+
 var Groups = require('./models/groups');
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
@@ -47,6 +49,17 @@ app.post('/webhook', (req, res) => {
       let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
 
+      if (!userInfo[sender_psid]) {
+        userInfo[sender_psid] = {
+          wantsToMakeGroup: false,
+          wantsToJoinGroup: false,
+          inGroup: false,
+          wantsToLeaveGrop: false,
+          wantsToGetTodos: false
+        }
+      }
+
+      console("Users", userInfo[sender_psid])
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
       if (webhook_event.message) {
@@ -72,8 +85,34 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
+    if (received_message.text === "Hello")
+    // response = {
+    //   "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+    // }
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Welcome!",
+            "subtitle": "Select what you'd like to do...",
+            //"image_url": attachment_url,
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Create Group!",
+                "payload": "Create Group!",
+              },
+              {
+                "type": "postback",
+                "title": "Join Group!",
+                "payload": "Join Group!",
+              }
+            ],
+          }]
+        }
+      }
     }
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
