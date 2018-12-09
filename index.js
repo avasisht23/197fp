@@ -166,11 +166,23 @@ function handleMessage(sender_psid, received_message) {
                           "type": "postback",
                           "title": "Join Group!",
                           "payload": "Join Group!",
+                        }
+                      ],
+                    },
+                    {
+                      "title": "OR",
+                      "subtitle": "Manage Todos",
+                      //"image_url": attachment_url,
+                      "buttons": [
+                        {
+                          "type": "postback",
+                          "title": "Add Todo!",
+                          "payload": "Add Todo!",
                         },
                         {
                           "type": "postback",
-                          "title": "Manage Todos!",
-                          "payload": "Manage Todos!",
+                          "title": "Get Todos!",
+                          "payload": "Get Todos!",
                         }
                       ],
                     }]
@@ -225,11 +237,23 @@ function handleMessage(sender_psid, received_message) {
                           "type": "postback",
                           "title": "Join Group!",
                           "payload": "Join Group!",
+                        }
+                      ],
+                    },
+                    {
+                      "title": "OR",
+                      "subtitle": "Manage Todos",
+                      //"image_url": attachment_url,
+                      "buttons": [
+                        {
+                          "type": "postback",
+                          "title": "Add Todo!",
+                          "payload": "Add Todo!",
                         },
                         {
                           "type": "postback",
-                          "title": "Manage Todos!",
-                          "payload": "Manage Todos!",
+                          "title": "Get Todos!",
+                          "payload": "Get Todos!",
                         }
                       ],
                     }]
@@ -278,11 +302,11 @@ function handlePostback(sender_psid, received_postback) {
     response = { "text": "What is the group id?" }
     userInfo[sender_psid].wantsToJoinGroup = true;
     console.log("wants to join", userInfo[sender_psid])
-  } else if (payload === 'Add Todos!') {
-    response = { "text": "Send me a group id to add todos" }
+  } else if (payload === 'Add Todo!') {
+    response = { "text": "Send me a group id to add todo" }
     userInfo[sender_psid].wantsToAddTodos = true;
     console.log("wants to add todos", userInfo[sender_psid])
-  } else if (payload === 'Join Group!') {
+  } else if (payload === 'Get Todos!') {
     response = { "text": "Send me a group id from which to get todos" }
     userInfo[sender_psid].wantsToGetTodos = true;
     console.log("wants to get todos", userInfo[sender_psid])
