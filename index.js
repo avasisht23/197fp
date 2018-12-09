@@ -108,16 +108,6 @@ function handleMessage(sender_psid, received_message) {
                   "type": "postback",
                   "title": "Join Group!",
                   "payload": "Join Group!",
-                },
-                {
-                  "type": "postback",
-                  "title": "Add Todo!",
-                  "payload": "Add Todo!",
-                },
-                {
-                  "type": "postback",
-                  "title": "Get Todos!",
-                  "payload": "Get Todos!",
                 }
               ],
             }]
@@ -137,9 +127,9 @@ function handleMessage(sender_psid, received_message) {
             if (!err) {
               console.log("created group!")
               userInfo[sender_psid].wantsToCreateGroup = false;
-              response = {
-                "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
-              }
+              // response = {
+              //   "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
+              // }
               response = {
                 "attachment": {
                   "type": "template",
