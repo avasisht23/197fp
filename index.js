@@ -135,7 +135,7 @@ function handleMessage(sender_psid, received_message) {
         if (!err) {
             console.log("joined group!")
         } else {
-            next(err);
+            console.log(err);
         }
       })
 
