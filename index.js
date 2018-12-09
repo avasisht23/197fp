@@ -134,15 +134,14 @@ function handleMessage(sender_psid, received_message) {
       var questionDb = Group.findOneAndUpdate({ "id" : groupID }, { $pop: { "members" : sender_psid } }, function (err, results) {
         if (!err) {
             console.log("joined group!")
+            userInfo[sender_psid].wantsToJoinGroup = false;
+            response = {
+              "text": `You have joined group: "${received_message.text}". Add a todo or Check todos!`
+            }
         } else {
             console.log(err);
         }
       })
-
-      userInfo[sender_psid].wantsToJoinGroup = false;
-      response = {
-        "text": `You have joined group: "${received_message.text}". Add a todo or Check todos!`
-      }
     }
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
