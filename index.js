@@ -86,7 +86,7 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+      "text": `You sent the message: "${received_message.text}". Say "Hello" to initiate conversation!`
     }
     if (received_message.text === "Hello") {
       response = {
@@ -134,6 +134,7 @@ function handleMessage(sender_psid, received_message) {
               callSendAPI(sender_psid, response);
             } else {
               console.log(err);
+              userInfo[sender_psid].wantsToCreateGroup = false;
               response = {
                 "text": `Error creating group. Reinitiate conversation by typing "Hello"`
               }
@@ -143,6 +144,7 @@ function handleMessage(sender_psid, received_message) {
           })
         } else {
           console.log("Group already exists!")
+          userInfo[sender_psid].wantsToCreateGroup = false;
           response = {
             "text": `Group exists already. Reinitiate convo by typing "Hello" and join it!`
           }
@@ -162,6 +164,7 @@ function handleMessage(sender_psid, received_message) {
               }
             } else {
               console.log("Group not found!")
+              userInfo[sender_psid].wantsToJoinGroup = false;
               response = {
                 "text": `Group not found! Try again and spell it right! Or say "Hello" to restart convo`
               }
@@ -171,6 +174,7 @@ function handleMessage(sender_psid, received_message) {
             callSendAPI(sender_psid, response);
         } else {
             console.log(err);
+            userInfo[sender_psid].wantsToJoinGroup = false;
             response = {
               "text": `Error joining group. Reinitiate conversation by typing "Hello" and make sure to spell group properly`
             }
