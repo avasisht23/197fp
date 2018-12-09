@@ -120,11 +120,11 @@ function handleMessage(sender_psid, received_message) {
       dbQ.save(function (err, result) {
         if (!err) {
           console.log("created group!")
+          userInfo[sender_psid].wantsToCreateGroup = false;
         } else {
           next(err);
         }
       })
-      userInfo[sender_psid].wantsToCreateGroup = false;
       response = {
         "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
       }
@@ -135,17 +135,13 @@ function handleMessage(sender_psid, received_message) {
         if (!err) {
             console.log("joined group!")
             userInfo[sender_psid].wantsToJoinGroup = false;
-            response = {
-              "text": `You have joined group: "${received_message.text}". Add a todo or Check todos!`
-            }
         } else {
             console.log(err);
-            response = {
-              "text": `Error in joining group. Make sure it's spelled right and retype the name.`
-            }
         }
       })
-
+      response = {
+        "text": `You have joined group: "${received_message.text}". Add a todo or Check todos!`
+      }
     }
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
