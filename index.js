@@ -153,8 +153,8 @@ function handleMessage(sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": "Welcome!",
-                      "subtitle": "Select what you'd like to do...",
+                      "title": `You have created group: "${received_message.text}".`,
+                      "subtitle": "Select what you'd like to do next...",
                       //"image_url": attachment_url,
                       "buttons": [
                         {
@@ -224,8 +224,8 @@ function handleMessage(sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": "Welcome!",
-                      "subtitle": "Select what you'd like to do...",
+                      "title": `You have joined group: "${received_message.text}".`,
+                      "subtitle": "Select what you'd like to do next...",
                       //"image_url": attachment_url,
                       "buttons": [
                         {
