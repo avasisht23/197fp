@@ -108,6 +108,11 @@ function handleMessage(sender_psid, received_message) {
                   "type": "postback",
                   "title": "Join Group!",
                   "payload": "Join Group!",
+                },
+                {
+                  "type": "postback",
+                  "title": "Add Todo!",
+                  "payload": "Add Todo!",
                 }
               ],
             }]
