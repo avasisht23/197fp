@@ -108,6 +108,16 @@ function handleMessage(sender_psid, received_message) {
                   "type": "postback",
                   "title": "Join Group!",
                   "payload": "Join Group!",
+                },
+                {
+                  "type": "postback",
+                  "title": "Add Todo!",
+                  "payload": "Add Todo!",
+                },
+                {
+                  "type": "postback",
+                  "title": "Get Todos!",
+                  "payload": "Get Todos!",
                 }
               ],
             }]
@@ -129,6 +139,41 @@ function handleMessage(sender_psid, received_message) {
               userInfo[sender_psid].wantsToCreateGroup = false;
               response = {
                 "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
+              }
+              response = {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                      "title": `You have created group: "${received_message.text}".`,
+                      "subtitle": "Select one of the following to do next.",
+                      //"image_url": attachment_url,
+                      "buttons": [
+                        {
+                          "type": "postback",
+                          "title": "Create Group!",
+                          "payload": "Create Group!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Join Group!",
+                          "payload": "Join Group!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Add Todo!",
+                          "payload": "Add Todo!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Get Todos!",
+                          "payload": "Get Todos!",
+                        }
+                      ],
+                    }]
+                  }
+                }
               }
               // Send the response message
               callSendAPI(sender_psid, response);
@@ -160,7 +205,39 @@ function handleMessage(sender_psid, received_message) {
               console.log("joined group!")
               userInfo[sender_psid].wantsToJoinGroup = false;
               response = {
-                "text": `You have joined group: "${received_message.text}". Add a todo or Check todos!`
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                      "title": `You have joined group: "${received_message.text}".`,
+                      "subtitle": "Select one of the following to do next.",
+                      //"image_url": attachment_url,
+                      "buttons": [
+                        {
+                          "type": "postback",
+                          "title": "Create Group!",
+                          "payload": "Create Group!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Join Group!",
+                          "payload": "Join Group!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Add Todo!",
+                          "payload": "Add Todo!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Get Todos!",
+                          "payload": "Get Todos!",
+                        }
+                      ],
+                    }]
+                  }
+                }
               }
             } else {
               console.log("Group not found!")
@@ -187,37 +264,38 @@ function handleMessage(sender_psid, received_message) {
       // Send the response message
       callSendAPI(sender_psid, response);
     }
-  } else if (received_message.attachments) {
-    // Get the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
-            //"image_url": attachment_url,
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Create Group!",
-                "payload": "Create Group!",
-              },
-              {
-                "type": "postback",
-                "title": "Join Group!",
-                "payload": "Join Group!",
-              }
-            ],
-          }]
-        }
-      }
-    }
-    // Send the response message
-    callSendAPI(sender_psid, response);
   }
+  // else if (received_message.attachments) {
+  //   // Get the URL of the message attachment
+  //   let attachment_url = received_message.attachments[0].payload.url;
+  //   response = {
+  //     "attachment": {
+  //       "type": "template",
+  //       "payload": {
+  //         "template_type": "generic",
+  //         "elements": [{
+  //           "title": "Is this the right picture?",
+  //           "subtitle": "Tap a button to answer.",
+  //           //"image_url": attachment_url,
+  //           "buttons": [
+  //             {
+  //               "type": "postback",
+  //               "title": "Create Group!",
+  //               "payload": "Create Group!",
+  //             },
+  //             {
+  //               "type": "postback",
+  //               "title": "Join Group!",
+  //               "payload": "Join Group!",
+  //             }
+  //           ],
+  //         }]
+  //       }
+  //     }
+  //   }
+  //   // Send the response message
+  //   callSendAPI(sender_psid, response);
+  // }
 }
 
 function handlePostback(sender_psid, received_postback) {
@@ -234,6 +312,14 @@ function handlePostback(sender_psid, received_postback) {
     response = { "text": "What is the group id?" }
     userInfo[sender_psid].wantsToJoinGroup = true;
     console.log("wants to join", userInfo[sender_psid])
+  } else if (payload === 'Add Todos!') {
+    response = { "text": "Send me a group id to add todos" }
+    userInfo[sender_psid].wantsToAddTodos = true;
+    console.log("wants to add todos", userInfo[sender_psid])
+  } else if (payload === 'Join Group!') {
+    response = { "text": "Send me a group id from which to get todos" }
+    userInfo[sender_psid].wantsToGetTodos = true;
+    console.log("wants to get todos", userInfo[sender_psid])
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
