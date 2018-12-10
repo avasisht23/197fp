@@ -30,8 +30,8 @@ var callSendAPI = function(sender_psid, response) {
   });
 }
 
-var export = {
+var callFB = {
   callSendAPI: callSendAPI
 };
 
-module.exports = export;
+module.exports = callFB;
