@@ -21,50 +21,7 @@ var handleMessage = function(userInfo, sender_psid, received_message) {
       "text": `You sent the message: "${received_message.text}". Say "Hello" to initiate conversation!`
     }
     if (received_message.text === "Hello") {
-      response = {
-        "attachment": {
-          "type": "template",
-          "payload": {
-            "template_type": "generic",
-            "elements": [{
-              "title": "Welcome!",
-              "subtitle": "Select what you'd like to do...",
-              //"image_url": attachment_url,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": "Create Group!",
-                  "payload": "Create Group!",
-                },
-                {
-                  "type": "postback",
-                  "title": "Join Group!",
-                  "payload": "Join Group!",
-                }
-              ],
-            },
-            {
-              "title": "OR",
-              "subtitle": "Manage Todos",
-              //"image_url": attachment_url,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": "Add Todo!",
-                  "payload": "Add Todo!",
-                },
-                {
-                  "type": "postback",
-                  "title": "Get Todos!",
-                  "payload": "Get Todos!",
-                }
-              ],
-            }]
-          }
-        }
-      }
-      // Send the response message
-      sendBack.callSendAPI(sender_psid, response);
+      initiatePrompts(response, userInfo, sender_psid, received_message);
     }
     else if (userInfo[sender_psid].wantsToCreateGroup) {
       createGroup(response, userInfo, sender_psid, received_message);
@@ -84,6 +41,53 @@ var handleMessage = function(userInfo, sender_psid, received_message) {
       sendBack.callSendAPI(sender_psid, response);
     }
   }
+}
+
+var initiatePrompts = function(response, userInfo, sender_psid, received_message) {
+  response = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [{
+          "title": "Welcome!",
+          "subtitle": "Select what you'd like to do...",
+          //"image_url": attachment_url,
+          "buttons": [
+            {
+              "type": "postback",
+              "title": "Create Group!",
+              "payload": "Create Group!",
+            },
+            {
+              "type": "postback",
+              "title": "Join Group!",
+              "payload": "Join Group!",
+            }
+          ],
+        },
+        {
+          "title": "OR",
+          "subtitle": "Manage Todos",
+          //"image_url": attachment_url,
+          "buttons": [
+            {
+              "type": "postback",
+              "title": "Add Todo!",
+              "payload": "Add Todo!",
+            },
+            {
+              "type": "postback",
+              "title": "Get Todos!",
+              "payload": "Get Todos!",
+            }
+          ],
+        }]
+      }
+    }
+  }
+  // Send the response message
+  sendBack.callSendAPI(sender_psid, response);
 }
 
 var createGroup = function(response, userInfo, sender_psid, received_message) {
