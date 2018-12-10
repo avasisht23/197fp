@@ -67,157 +67,163 @@ var handleMessage = function(userInfo, sender_psid, received_message) {
       sendBack.callSendAPI(sender_psid, response);
     }
     else if (userInfo[sender_psid].wantsToCreateGroup) {
-      var groupID = received_message.text;
-      Group.find( { id: groupID}, function (err, result) {
-        console.log("find result", result)
-        if (result.length === 0) {
-          var dbQ = new Group({ id: groupID, owner: sender_psid, members: [sender_psid] })
-          dbQ.save(function (err, results) {
-            if (!err) {
-              console.log("created group!")
-              userInfo[sender_psid].wantsToCreateGroup = false;
-              // response = {
-              //   "text": `You have created group: "${received_message.text}". Add a todo or Check todos!`
-              // }
-              response = {
-                "attachment": {
-                  "type": "template",
-                  "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                      "title": `You have created group: "${received_message.text}".`,
-                      "subtitle": "Select what you'd like to do next...",
-                      //"image_url": attachment_url,
-                      "buttons": [
-                        {
-                          "type": "postback",
-                          "title": "Create Group!",
-                          "payload": "Create Group!",
-                        },
-                        {
-                          "type": "postback",
-                          "title": "Join Group!",
-                          "payload": "Join Group!",
-                        }
-                      ],
-                    },
-                    {
-                      "title": "OR",
-                      "subtitle": "Manage Todos",
-                      //"image_url": attachment_url,
-                      "buttons": [
-                        {
-                          "type": "postback",
-                          "title": "Add Todo!",
-                          "payload": "Add Todo!",
-                        },
-                        {
-                          "type": "postback",
-                          "title": "Get Todos!",
-                          "payload": "Get Todos!",
-                        }
-                      ],
-                    }]
-                  }
-                }
-              }
-              // Send the response message
-              sendBack.callSendAPI(sender_psid, response);
-            } else {
-              console.log(err);
-              userInfo[sender_psid].wantsToCreateGroup = false;
-              response = {
-                "text": `Error creating group. Reinitiate conversation by typing "Hello"`
-              }
-              // Send the response message
-              sendBack.callSendAPI(sender_psid, response);
-            }
-          })
-        } else {
-          console.log("Group already exists!")
-          userInfo[sender_psid].wantsToCreateGroup = false;
-          response = {
-            "text": `Group exists already. Reinitiate convo by typing "Hello" and join it!`
-          }
-          sendBack.callSendAPI(sender_psid, response);
-        }
-      })
+      createGroup(response, userInfo, sender_psid, received_message);
     }
     else if (userInfo[sender_psid].wantsToJoinGroup) {
-      var groupID = received_message.text;
-      var questionDb = Group.findOneAndUpdate({ "id" : groupID }, { $addToSet: { "members" : sender_psid } }, function (err, results) {
-        if (!err) {
-            if (results) {
-              console.log("joined group!")
-              userInfo[sender_psid].wantsToJoinGroup = false;
-              response = {
-                "attachment": {
-                  "type": "template",
-                  "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                      "title": `You have joined group: "${received_message.text}".`,
-                      "subtitle": "Select what you'd like to do next...",
-                      //"image_url": attachment_url,
-                      "buttons": [
-                        {
-                          "type": "postback",
-                          "title": "Create Group!",
-                          "payload": "Create Group!",
-                        },
-                        {
-                          "type": "postback",
-                          "title": "Join Group!",
-                          "payload": "Join Group!",
-                        }
-                      ],
-                    },
-                    {
-                      "title": "OR",
-                      "subtitle": "Manage Todos",
-                      //"image_url": attachment_url,
-                      "buttons": [
-                        {
-                          "type": "postback",
-                          "title": "Add Todo!",
-                          "payload": "Add Todo!",
-                        },
-                        {
-                          "type": "postback",
-                          "title": "Get Todos!",
-                          "payload": "Get Todos!",
-                        }
-                      ],
-                    }]
-                  }
-                }
-              }
-            } else {
-              console.log("Group not found!")
-              userInfo[sender_psid].wantsToJoinGroup = false;
-              response = {
-                "text": `Group not found! Reinitiate conversation by typing "Hello" to restart convo`
-              }
-            }
-
-            // Send the response message
-            sendBack.callSendAPI(sender_psid, response);
-        } else {
-            console.log(err);
-            userInfo[sender_psid].wantsToJoinGroup = false;
-            response = {
-              "text": `Error joining group. Reinitiate conversation by typing "Hello" and make sure to spell group properly`
-            }
-            // Send the response message
-            sendBack.callSendAPI(sender_psid, response);
-        }
-      })
+      joinGroup(response, userInfo, sender_psid, received_message);
     }
     else {
       // Send the response message
       sendBack.callSendAPI(sender_psid, response);
     }
   }
+}
+
+var createGroup = function(response, userInfo, sender_psid, received_message) {
+  var groupID = received_message.text;
+  Group.find( { id: groupID}, function (err, result) {
+    console.log("find result", result)
+    if (result.length === 0) {
+      var dbQ = new Group({ id: groupID, owner: sender_psid, members: [sender_psid] })
+      dbQ.save(function (err, results) {
+        if (!err) {
+          console.log("created group!")
+          userInfo[sender_psid].wantsToCreateGroup = false;
+
+          response = {
+            "attachment": {
+              "type": "template",
+              "payload": {
+                "template_type": "generic",
+                "elements": [{
+                  "title": `You have created group: "${received_message.text}".`,
+                  "subtitle": "Select what you'd like to do next...",
+                  //"image_url": attachment_url,
+                  "buttons": [
+                    {
+                      "type": "postback",
+                      "title": "Create Group!",
+                      "payload": "Create Group!",
+                    },
+                    {
+                      "type": "postback",
+                      "title": "Join Group!",
+                      "payload": "Join Group!",
+                    }
+                  ],
+                },
+                {
+                  "title": "OR",
+                  "subtitle": "Manage Todos",
+                  //"image_url": attachment_url,
+                  "buttons": [
+                    {
+                      "type": "postback",
+                      "title": "Add Todo!",
+                      "payload": "Add Todo!",
+                    },
+                    {
+                      "type": "postback",
+                      "title": "Get Todos!",
+                      "payload": "Get Todos!",
+                    }
+                  ],
+                }]
+              }
+            }
+          }
+          // Send the response message
+          sendBack.callSendAPI(sender_psid, response);
+        } else {
+          console.log(err);
+          userInfo[sender_psid].wantsToCreateGroup = false;
+          response = {
+            "text": `Error creating group. Reinitiate conversation by typing "Hello"`
+          }
+          // Send the response message
+          sendBack.callSendAPI(sender_psid, response);
+        }
+      })
+    } else {
+      console.log("Group already exists!")
+      userInfo[sender_psid].wantsToCreateGroup = false;
+      response = {
+        "text": `Group exists already. Reinitiate convo by typing "Hello" and join it!`
+      }
+      sendBack.callSendAPI(sender_psid, response);
+    }
+  })
+}
+
+var joinGroup = function(response, userInfo, sender_psid, received_message) {
+  var groupID = received_message.text;
+  var questionDb = Group.findOneAndUpdate({ "id" : groupID }, { $addToSet: { "members" : sender_psid } }, function (err, results) {
+    if (!err) {
+        if (results) {
+          console.log("joined group!")
+          userInfo[sender_psid].wantsToJoinGroup = false;
+          response = {
+            "attachment": {
+              "type": "template",
+              "payload": {
+                "template_type": "generic",
+                "elements": [{
+                  "title": `You have joined group: "${received_message.text}".`,
+                  "subtitle": "Select what you'd like to do next...",
+                  //"image_url": attachment_url,
+                  "buttons": [
+                    {
+                      "type": "postback",
+                      "title": "Create Group!",
+                      "payload": "Create Group!",
+                    },
+                    {
+                      "type": "postback",
+                      "title": "Join Group!",
+                      "payload": "Join Group!",
+                    }
+                  ],
+                },
+                {
+                  "title": "OR",
+                  "subtitle": "Manage Todos",
+                  //"image_url": attachment_url,
+                  "buttons": [
+                    {
+                      "type": "postback",
+                      "title": "Add Todo!",
+                      "payload": "Add Todo!",
+                    },
+                    {
+                      "type": "postback",
+                      "title": "Get Todos!",
+                      "payload": "Get Todos!",
+                    }
+                  ],
+                }]
+              }
+            }
+          }
+        } else {
+          console.log("Group not found!")
+          userInfo[sender_psid].wantsToJoinGroup = false;
+          response = {
+            "text": `Group not found! Reinitiate conversation by typing "Hello" to restart convo`
+          }
+        }
+
+        // Send the response message
+        sendBack.callSendAPI(sender_psid, response);
+    } else {
+        console.log(err);
+        userInfo[sender_psid].wantsToJoinGroup = false;
+        response = {
+          "text": `Error joining group. Reinitiate conversation by typing "Hello" and make sure to spell group properly`
+        }
+        // Send the response message
+        sendBack.callSendAPI(sender_psid, response);
+    }
+  })
 }
 
 var handleMSG = {
