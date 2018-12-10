@@ -10,7 +10,7 @@ var sendBack = require('./callSendApi.js');
 var token = process.env.FB_VERIFY_TOKEN;
 var access = process.env.FB_ACCESS_TOKEN;
 
-function handlePostback(userInfo, sender_psid, received_postback) {
+var handlePostback = function(userInfo, sender_psid, received_postback) {
   let response;
   // Get the payload for the postback
   let payload = received_postback.payload;
