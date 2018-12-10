@@ -5,6 +5,8 @@ var mongoose = require('mongoose')
 var request = require('request')
 var app = express();
 
+var callSendAPI = require('./callSendApi.js');
+
 var userInfo = [];
 
 var Group = require('./models/groups');
@@ -264,7 +266,7 @@ function handleMessage(sender_psid, received_message) {
               console.log("Group not found!")
               userInfo[sender_psid].wantsToJoinGroup = false;
               response = {
-                "text": `Group not found! Try again and spell it right! Or say "Hello" to restart convo`
+                "text": `Group not found! Reinitiate conversation by typing "Hello" to restart convo`
               }
             }
 
@@ -313,31 +315,6 @@ function handlePostback(sender_psid, received_postback) {
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
-}
-
-function callSendAPI(sender_psid, response) {
-  // Construct the message body
-  console.log("resp", response)
-  let request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "message": response
-  }
-
-  // Send the HTTP request to the Messenger Platform
-  request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": access },
-    "method": "POST",
-    "json": request_body
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('message sent!')
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  });
 }
 
 app.listen(process.env.PORT || 5000, function () {
