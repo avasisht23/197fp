@@ -6,6 +6,7 @@ var request = require('request')
 var app = express();
 
 var sendBack = require('./callSendApi.js');
+var handlePB = require('.handlePostback.js');
 
 var userInfo = [];
 
@@ -67,7 +68,7 @@ app.post('/webhook', (req, res) => {
       if (webhook_event.message) {
         handleMessage(sender_psid, webhook_event.message);
       } else if (webhook_event.postback) {
-        handlePostback(sender_psid, webhook_event.postback);
+        handlePB.handlePostback(userInfo, sender_psid, webhook_event.postback);
       }
     });
 
@@ -288,33 +289,6 @@ function handleMessage(sender_psid, received_message) {
       sendBack.callSendAPI(sender_psid, response);
     }
   }
-}
-
-function handlePostback(sender_psid, received_postback) {
-  let response;
-  // Get the payload for the postback
-  let payload = received_postback.payload;
-
-  // Set the response based on the postback payload
-  if (payload === 'Create Group!') {
-    response = { "text": "Give me a group id!" }
-    userInfo[sender_psid].wantsToCreateGroup = true;
-    console.log("wants to create", userInfo[sender_psid])
-  } else if (payload === 'Join Group!') {
-    response = { "text": "What is the group id?" }
-    userInfo[sender_psid].wantsToJoinGroup = true;
-    console.log("wants to join", userInfo[sender_psid])
-  } else if (payload === 'Add Todo!') {
-    response = { "text": "Send me a group id to add todo" }
-    userInfo[sender_psid].wantsToAddTodos = true;
-    console.log("wants to add todos", userInfo[sender_psid])
-  } else if (payload === 'Get Todos!') {
-    response = { "text": "Send me a group id from which to get todos" }
-    userInfo[sender_psid].wantsToGetTodos = true;
-    console.log("wants to get todos", userInfo[sender_psid])
-  }
-  // Send the message to acknowledge the postback
-  sendBack.callSendAPI(sender_psid, response);
 }
 
 app.listen(process.env.PORT || 5000, function () {
