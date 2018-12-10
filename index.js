@@ -6,7 +6,7 @@ var request = require('request')
 var app = express();
 
 var sendBack = require('./callSendApi.js');
-var handlePB = require('.handlePostback.js');
+var handlePB = require('./handlePostback.js');
 
 var userInfo = [];
 
