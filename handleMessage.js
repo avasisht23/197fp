@@ -271,7 +271,7 @@ var addTodo = function(response, userInfo, sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": `You have added todo: "${deadline}" to group "${groupID}"`,
+                      "title": `You have added todo: "${todo}" to group "${groupID}, due ${received_message.text}"`,
                       "subtitle": "Select what you'd like to do next...",
                       //"image_url": attachment_url,
                       "buttons": [
