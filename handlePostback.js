@@ -26,7 +26,7 @@ var handlePostback = function(userInfo, sender_psid, received_postback) {
     console.log("wants to join", userInfo[sender_psid])
   } else if (payload === 'Add Todo!') {
     response = { "text": "Send me a group id to add todo" }
-    userInfo[sender_psid].wantsToAddTodos = true;
+    userInfo[sender_psid].wantsToAddTodo = true;
     console.log("wants to add todos", userInfo[sender_psid])
   } else if (payload === 'Get Todos!') {
     response = { "text": "Send me a group id from which to get todos" }

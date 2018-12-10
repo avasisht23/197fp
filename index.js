@@ -57,8 +57,10 @@ app.post('/webhook', (req, res) => {
         userInfo[sender_psid] = {
           wantsToCreateGroup: false,
           wantsToJoinGroup: false,
-          wantsToLeaveGroup: false,
-          wantsToAddTodos: false,
+          wantsToAddTodo: false,
+          todoGroupWasGiven: '',
+          todoWasGiven: '',
+          wantsToGetMembers: false,
           wantsToGetTodos: false
         }
       }

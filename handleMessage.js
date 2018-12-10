@@ -29,13 +29,24 @@ var handleMessage = function(userInfo, sender_psid, received_message) {
     else if (userInfo[sender_psid].wantsToJoinGroup) {
       joinGroup(response, userInfo, sender_psid, received_message);
     }
+    else if (userInfo[sender_psid].wantsToAddTodo) {
+      addTodo(response, userInfo, sender_psid, received_message);
+    }
+    else if (userInfo[sender_psid].wantsToGetMembers) {
+      getMembers(response, userInfo, sender_psid, received_message);
+    }
+    else if (userInfo[sender_psid].wantsToGetTodos) {
+      getTodos(response, userInfo, sender_psid, received_message);
+    }
     else {
       // Send the response message
       userInfo[sender_psid] = {
         wantsToCreateGroup: false,
         wantsToJoinGroup: false,
-        wantsToLeaveGroup: false,
-        wantsToAddTodos: false,
+        wantsToAddTodo: false,
+        todoGroupWasGiven: '',
+        todoWasGiven: '',
+        wantsToGetMembers: false,
         wantsToGetTodos: false
       }
       sendBack.callSendAPI(sender_psid, response);
@@ -168,7 +179,7 @@ var createGroup = function(response, userInfo, sender_psid, received_message) {
 
 var joinGroup = function(response, userInfo, sender_psid, received_message) {
   var groupID = received_message.text;
-  var questionDb = Group.findOneAndUpdate({ "id" : groupID }, { $addToSet: { "members" : sender_psid } }, function (err, results) {
+  var groupDb = Group.findOneAndUpdate({ "id" : groupID }, { $addToSet: { "members" : sender_psid } }, function (err, results) {
     if (!err) {
         if (results) {
           console.log("joined group!")
@@ -235,6 +246,126 @@ var joinGroup = function(response, userInfo, sender_psid, received_message) {
         sendBack.callSendAPI(sender_psid, response);
     }
   })
+}
+
+// groupid given first. If exists, ask for todo and then ask for deadline after todo is given.
+var addTodo = function(response, userInfo, sender_psid, received_message) {
+  response = {
+    "text": `What is the todo that you want to add for yourself?`
+  }
+
+  if (userInfo[sender_psid].todoGroupWasGiven) {
+    var groupID = userInfo[sender_psid].todoGroupWasGiven;
+
+    if (userInfo[sender_psid].todoWasGiven) {
+      var todo = userInfo[sender_psid].todoWasGiven;
+      var deadline = new Date(received_message.text);
+
+      var groupDb = Group.findOneAndUpdate({ "id" : groupID }, { $addToSet: { "todos" : { person: sender_psid, item: todo, date: deadline} } }, function (err, results) {
+        if (!err) {
+            if (results) {
+              console.log("added todo!")
+              response = {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                      "title": `You have added todo: "${deadline}" to group "${groupID}"`,
+                      "subtitle": "Select what you'd like to do next...",
+                      //"image_url": attachment_url,
+                      "buttons": [
+                        {
+                          "type": "postback",
+                          "title": "Create Group!",
+                          "payload": "Create Group!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Join Group!",
+                          "payload": "Join Group!",
+                        }
+                      ],
+                    },
+                    {
+                      "title": "OR",
+                      "subtitle": "Manage Todos",
+                      //"image_url": attachment_url,
+                      "buttons": [
+                        {
+                          "type": "postback",
+                          "title": "Add Todo!",
+                          "payload": "Add Todo!",
+                        },
+                        {
+                          "type": "postback",
+                          "title": "Get Todos!",
+                          "payload": "Get Todos!",
+                        }
+                      ],
+                    }]
+                  }
+                }
+              }
+
+            } else {
+              console.log("Group not found!")
+              response = {
+                "text": `Group not found! Reinitiate conversation by typing "Hello" to restart convo`
+              }
+            }
+            userInfo[sender_psid].wantsToAddTodo = false;
+            userInfo[sender_psid].todoGroupWasGiven = '';
+            userInfo[sender_psid].todoWasGiven = '';
+            // Send the response message
+            sendBack.callSendAPI(sender_psid, response);
+        } else {
+            console.log(err);
+            userInfo[sender_psid].wantsToAddTodo = false;
+            userInfo[sender_psid].todoGroupWasGiven = '';
+            userInfo[sender_psid].todoWasGiven = '';
+            response = {
+              "text": `Error adding todo. Reinitiate conversation by typing "Hello".`
+            }
+            // Send the response message
+            sendBack.callSendAPI(sender_psid, response);
+        }
+      })
+    } else {
+      response = {
+        "text": `What is the deadline for the todo? For example, say "December 11, 2018 11:00:00"`
+      }
+      userInfo[sender_psid].todoWasGiven = received_message.text;
+      sendBack.callSendAPI(sender_psid, response);
+    }
+  } else {
+    var groupID = received_message.text;
+
+    Group.find( { id: groupID}, function (err, result) {
+      console.log("find result", result)
+      if (result.length === 0) {
+        console.log("Group does not exist!")
+        userInfo[sender_psid].wantsToAddTodo = false;
+        response = {
+          "text": `Group does not exist. Reinitiate convo by typing "Hello" and create it!`
+        }
+        sendBack.callSendAPI(sender_psid, response);
+      } else {
+        console.log("Group exists! Will add todo now!")
+        userInfo[sender_psid].todoGroupWasGiven = received_message.text;
+
+        sendBack.callSendAPI(sender_psid, response);
+      }
+    })
+  }
+}
+
+var getMembers = function(response, userInfo, sender_psid, received_message) {
+
+}
+
+var getTodos = function(response, userInfo, sender_psid, received_message) {
+
 }
 
 var handleMSG = {
