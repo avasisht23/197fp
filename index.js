@@ -5,7 +5,7 @@ var mongoose = require('mongoose')
 var request = require('request')
 var app = express();
 
-var callSendAPI = require('./callSendApi.js');
+var sendBack = require('./callSendApi.js');
 
 var userInfo = [];
 
@@ -134,7 +134,7 @@ function handleMessage(sender_psid, received_message) {
         }
       }
       // Send the response message
-      callSendAPI(sender_psid, response);
+      sendBack.callSendAPI(sender_psid, response);
     }
     else if (userInfo[sender_psid].wantsToCreateGroup) {
       var groupID = received_message.text;
@@ -192,7 +192,7 @@ function handleMessage(sender_psid, received_message) {
                 }
               }
               // Send the response message
-              callSendAPI(sender_psid, response);
+              sendBack.callSendAPI(sender_psid, response);
             } else {
               console.log(err);
               userInfo[sender_psid].wantsToCreateGroup = false;
@@ -200,7 +200,7 @@ function handleMessage(sender_psid, received_message) {
                 "text": `Error creating group. Reinitiate conversation by typing "Hello"`
               }
               // Send the response message
-              callSendAPI(sender_psid, response);
+              sendBack.callSendAPI(sender_psid, response);
             }
           })
         } else {
@@ -209,7 +209,7 @@ function handleMessage(sender_psid, received_message) {
           response = {
             "text": `Group exists already. Reinitiate convo by typing "Hello" and join it!`
           }
-          callSendAPI(sender_psid, response);
+          sendBack.callSendAPI(sender_psid, response);
         }
       })
     }
@@ -271,7 +271,7 @@ function handleMessage(sender_psid, received_message) {
             }
 
             // Send the response message
-            callSendAPI(sender_psid, response);
+            sendBack.callSendAPI(sender_psid, response);
         } else {
             console.log(err);
             userInfo[sender_psid].wantsToJoinGroup = false;
@@ -279,13 +279,13 @@ function handleMessage(sender_psid, received_message) {
               "text": `Error joining group. Reinitiate conversation by typing "Hello" and make sure to spell group properly`
             }
             // Send the response message
-            callSendAPI(sender_psid, response);
+            sendBack.callSendAPI(sender_psid, response);
         }
       })
     }
     else {
       // Send the response message
-      callSendAPI(sender_psid, response);
+      sendBack.callSendAPI(sender_psid, response);
     }
   }
 }
@@ -314,7 +314,7 @@ function handlePostback(sender_psid, received_postback) {
     console.log("wants to get todos", userInfo[sender_psid])
   }
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  sendBack.callSendAPI(sender_psid, response);
 }
 
 app.listen(process.env.PORT || 5000, function () {
