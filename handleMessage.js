@@ -74,6 +74,13 @@ var handleMessage = function(userInfo, sender_psid, received_message) {
     }
     else {
       // Send the response message
+      userInfo[sender_psid] = {
+        wantsToCreateGroup: false,
+        wantsToJoinGroup: false,
+        wantsToLeaveGroup: false,
+        wantsToAddTodos: false,
+        wantsToGetTodos: false
+      }
       sendBack.callSendAPI(sender_psid, response);
     }
   }
