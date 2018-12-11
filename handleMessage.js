@@ -46,7 +46,6 @@ var handleMessage = function(userInfo, sender_psid, received_message) {
         wantsToAddTodo: false,
         todoGroupWasGiven: '',
         todoWasGiven: '',
-        wantsToGetMembers: false,
         wantsToGetTodos: false
       }
       sendBack.callSendAPI(sender_psid, response);
@@ -360,12 +359,25 @@ var addTodo = function(response, userInfo, sender_psid, received_message) {
   }
 }
 
-var getMembers = function(response, userInfo, sender_psid, received_message) {
-
-}
-
 var getTodos = function(response, userInfo, sender_psid, received_message) {
+  var groupID = received_message.text;
 
+  Group.find( { id: groupID}, function (err, result) {
+    console.log("find result", result)
+    if (result.length === 0) {
+      console.log("Group does not exist!")
+      userInfo[sender_psid].wantsToGetTodos = false;
+      response = {
+        "text": `Group does not exist. Reinitiate convo by typing "Hello" and create it!`
+      }
+      sendBack.callSendAPI(sender_psid, response);
+    } else {
+      console.log("Group exists! Will add todo now!")
+      
+
+      sendBack.callSendAPI(sender_psid, response);
+    }
+  })
 }
 
 var handleMSG = {

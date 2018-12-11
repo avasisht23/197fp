@@ -60,7 +60,6 @@ app.post('/webhook', (req, res) => {
           wantsToAddTodo: false,
           todoGroupWasGiven: '',
           todoWasGiven: '',
-          wantsToGetMembers: false,
           wantsToGetTodos: false
         }
       }
