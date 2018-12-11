@@ -3,7 +3,6 @@ var bodyParser = require('body-parser')
 var cookieSession = require('cookie-session')
 var mongoose = require('mongoose')
 var request = require('request')
-var app = express();
 
 var sendTodosToUsers = [];
 var sendToUsers = require('../handlers/callSendApi.js');
