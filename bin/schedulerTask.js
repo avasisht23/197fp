@@ -27,6 +27,9 @@ function scheduler() {
           var nowPlusHour = now.getHours() + 1;
           var nowPlus10Min = now.getMinutes() + 10;
           var nowPlusDay = now.getDate() + 1;
+          console.log("now", now.toLocaleDateString());
+          console.log("tomorrow", nowPlusDay.toLocaleDateString);
+          console.log("now", date.toLocaleDateString());
 
           // if(date.toString() === now.toString() || date.toString() === nowPlusHour.toString() ||
           //    date.toString() === nowPlus10Min.toString() || date.toString() === nowPlusDay.toString()) {
@@ -40,12 +43,6 @@ function scheduler() {
             date: date,
             item: item
           });
-    		// 	if (someLogicToCheckWhetherAReminderShouldGoOutNow) {
-    		// 		groupsToSendRemindersTo.push(g, reminderToSendOut);
-    		// 		markReminderAsSent();
-    		// 	}
-    		// })
-    		// sendOutRemindersToAllGroupsIn(groupsToSendRemindersTo);
         console.log("UPDATE", sendTodosToUsers)
     	 })
       }
@@ -74,6 +71,8 @@ var sendTodos = function() {
 }
 
 scheduler();
+
+process.exit();
 
 var schedulerTask = {
   scheduler: scheduler
