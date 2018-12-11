@@ -60,11 +60,11 @@ var sendTodos = function() {
   let response;
 
   sendTodosToUsers.forEach((todo) => {
-    var sender_psid = sendTodosToUsers[todo].person;
-    var date = sendTodosToUsers[todo].date.toLocaleDateString();
-    var time = sendTodosToUsers[todo].date.toLocaleTimeString();
-    var group = sendTodosToUsers[todo].group;
-    var item = sendTodosToUsers[todo].item;
+    var sender_psid = todo.person;
+    var date = todo.date.toLocaleDateString();
+    var time = todo.date.toLocaleTimeString();
+    var group = todo.group;
+    var item = todo.item;
 
     response = {
       "text": `From Group "${group}," you have task "${item}" due on date ${date} at time ${time}`
