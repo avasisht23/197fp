@@ -22,6 +22,7 @@ function scheduler() {
       console.log("todos length", g.todos.length)
       console.log("todos", g.todos)
       if (g.todos.length !== 0) {
+        console.log("todos elt", g.todos[0])
         g.todos.forEach((elt) => {
           console.log("elt", g.todos[elt])
           var date = g.todos[elt].date;
