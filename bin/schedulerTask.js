@@ -67,7 +67,7 @@ var sendTodos = function() {
     }
 
     sendToUsers.callSendAPI(sender_psid, response);
-  }
+  })
 
   process.exit();
 }
