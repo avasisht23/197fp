@@ -42,7 +42,7 @@ function scheduler() {
 var sendTodos = function() {
   let response;
 
-  sendTodosToUsers.forEach((todo, index) => {
+  sendTodosToUsers.forEach((todo) => {
     var sender_psid = todo.person;
     var date = todo.date.toLocaleDateString();
     var time = todo.date.toLocaleTimeString();
@@ -54,10 +54,6 @@ var sendTodos = function() {
     }
 
     sendToUsers.callSendAPI(sender_psid, response);
-    console.log("hi", index)
-    if (index === sendTodosToUsers.length - 1) {
-      process.exit();
-    }
   })
 }
 
