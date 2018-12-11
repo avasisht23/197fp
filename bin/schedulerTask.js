@@ -20,7 +20,7 @@ function scheduler() {
     console.log("find result", res)
     res.forEach((g) => {
       g.todos.forEach((todo) => {
-        if (g.todos[todo]) {
+        if (g.todos[todo].length !== 0) {
           var date = g.todos[todo].date;
           var sender_psid = g.todos[todo].person;
           var item = g.todos[todo].item;
@@ -48,7 +48,7 @@ function scheduler() {
     		// 	}
     		// })
     		// sendOutRemindersToAllGroupsIn(groupsToSendRemindersTo);
-        console.log(sendTodosToUsers)
+        console.log("UPDATE", sendTodosToUsers)
     	})
     })
   })
