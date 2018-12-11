@@ -24,7 +24,7 @@ function scheduler() {
       if (g.todos.length !== 0) {
         console.log("todos elt", g.todos[0])
         g.todos.forEach((elt) => {
-          console.log("elt", g.todos[elt])
+          console.log("elt", elt)
           var date = g.todos[elt].date;
           var sender_psid = g.todos[todo].person;
           var item = g.todos[elt].item;
