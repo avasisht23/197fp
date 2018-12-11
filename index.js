@@ -5,9 +5,9 @@ var mongoose = require('mongoose')
 var request = require('request')
 var app = express();
 
-var sendBack = require('./callSendApi.js');
-var handlePB = require('./handlePostback.js');
-var handleMSG = require('./handleMessage.js');
+var sendBack = require('./handlers/callSendApi.js');
+var handlePB = require('./handlers/handlePostback.js');
+var handleMSG = require('./handlers/handleMessage.js');
 
 var userInfo = [];
 
