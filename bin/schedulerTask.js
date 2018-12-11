@@ -21,28 +21,29 @@ var scheduler = function() {
     console.log("find result", res)
     res.forEach((g) => {
       g.todos.forEach((todo) => {
-        var date = todo.date;
-        var sender_psid = todo.person;
-        var item = todo.item;
+        console.log("!!!!!!!", todo)
+        if (g.todos[todo]) {
+          var date = g.todos[todo].date;
+          var sender_psid = g.todos[todo].person;
+          var item = g.todos[todo].item;
 
-        var nowPlusHour = now.getHours() + 1;
-        var nowPlus10Min = now.getMinutes() + 10;
-        var nowPlusDay = now.getDate() + 1;
+          var nowPlusHour = now.getHours() + 1;
+          var nowPlus10Min = now.getMinutes() + 10;
+          var nowPlusDay = now.getDate() + 1;
 
-        // if(date.toString() === now.toString() || date.toString() === nowPlusHour.toString() ||
-        //    date.toString() === nowPlus10Min.toString() || date.toString() === nowPlusDay.toString()) {
-        //
-        //    }
-        //  })
+          // if(date.toString() === now.toString() || date.toString() === nowPlusHour.toString() ||
+          //    date.toString() === nowPlus10Min.toString() || date.toString() === nowPlusDay.toString()) {
+          //
+          //    }
+          //  })
 
-        sendTodosToGroups.push({
-          user: sender_psid,
-          group: g,
-          date: date,
-          item: item
-        });
-
-
+          sendTodosToGroups.push({
+            user: sender_psid,
+            group: g.id,
+            date: date,
+            item: item
+          });
+        }
     		// 	if (someLogicToCheckWhetherAReminderShouldGoOutNow) {
     		// 		groupsToSendRemindersTo.push(g, reminderToSendOut);
     		// 		markReminderAsSent();
@@ -50,6 +51,7 @@ var scheduler = function() {
     		// })
     		// sendOutRemindersToAllGroupsIn(groupsToSendRemindersTo);
     	})
+    })
   })
   sendTodos();
 }
@@ -70,3 +72,9 @@ var sendTodos = function() {
     sendToUsers.callSendAPI(sender_psid, response);
   })
 }
+
+var scheduleTask = {
+  scheduler: scheduler
+};
+
+module.exports = schedulerTask;
