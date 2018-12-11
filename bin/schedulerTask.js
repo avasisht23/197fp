@@ -24,19 +24,6 @@ async function scheduler() {
           var sender_psid = elt.person;
           var item = elt.item;
 
-          var nowPlusHour = now.getHours() + 1;
-          var nowPlus10Min = now.getMinutes() + 10;
-          var nowPlusDay = now.getDate() + 1;
-          console.log("now", now.toLocaleDateString());
-          console.log("tomorrow", nowPlusDay.toLocaleDateString());
-          console.log("now", date.toLocaleDateString());
-
-          // if(date.toString() === now.toString() || date.toString() === nowPlusHour.toString() ||
-          //    date.toString() === nowPlus10Min.toString() || date.toString() === nowPlusDay.toString()) {
-          //
-          //    }
-          //  })
-
           sendTodosToUsers.push({
             person: sender_psid,
             group: g.id,
