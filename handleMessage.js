@@ -373,11 +373,25 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
       sendBack.callSendAPI(sender_psid, response);
     } else {
       console.log("Group exists! Getting todos")
+
       response = {
-        "text": `Check!`
+        "text": `Below are the todos for ${groupID}`
       }
 
       sendBack.callSendAPI(sender_psid, response);
+
+      result.forEach(function(e) {
+        var id = e.person;
+        var item = e.item;
+        var date = e.deadline.toLocaleDateString();
+        var time = "" + e.deadline.getHours() + ":" + e.deadline.getMinutes() + ":" + e.deadline.getSeconds();
+
+        response = {
+          "text": `${id} has to do - ${} - by ${date} at ${time}`
+        }
+
+        sendBack.callSendAPI(sender_psid, response);
+      })
     }
   })
 }
