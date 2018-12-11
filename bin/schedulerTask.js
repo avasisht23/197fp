@@ -51,9 +51,9 @@ function scheduler() {
     	 })
       }
     })
+    console.log("here")
+    sendTodos();
   })
-  console.log("here")
-  sendTodos();
 }
 
 var sendTodos = function() {
