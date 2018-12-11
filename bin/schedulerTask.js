@@ -52,6 +52,7 @@ function scheduler() {
     	})
     })
   })
+  console.log("here")
   sendTodos();
 }
 
