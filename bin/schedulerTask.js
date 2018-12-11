@@ -16,44 +16,45 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
 // calling function upon running this script
 
 function scheduler() {
-  Group.find({}, function (err, res) {
-    console.log("find result", res)
-    res.forEach((g) => {
-      if (g.todos.length !== 0) {
-        g.todos.forEach((elt) => {
-          var date = elt.date;
-          var sender_psid = elt.person;
-          var item = elt.item;
-
-          var nowPlusHour = now.getHours() + 1;
-          var nowPlus10Min = now.getMinutes() + 10;
-          var nowPlusDay = now.getDate() + 1;
-
-          // if(date.toString() === now.toString() || date.toString() === nowPlusHour.toString() ||
-          //    date.toString() === nowPlus10Min.toString() || date.toString() === nowPlusDay.toString()) {
-          //
-          //    }
-          //  })
-
-          sendTodosToUsers.push({
-            user: sender_psid,
-            group: g.id,
-            date: date,
-            item: item
-          });
-    		// 	if (someLogicToCheckWhetherAReminderShouldGoOutNow) {
-    		// 		groupsToSendRemindersTo.push(g, reminderToSendOut);
-    		// 		markReminderAsSent();
-    		// 	}
-    		// })
-    		// sendOutRemindersToAllGroupsIn(groupsToSendRemindersTo);
-        console.log("UPDATE", sendTodosToUsers)
-    	 })
-      }
-    })
-    console.log("here")
-    sendTodos();
-  })
+  console.log("Hello");
+  // Group.find({}, function (err, res) {
+  //   console.log("find result", res)
+  //   res.forEach((g) => {
+  //     if (g.todos.length !== 0) {
+  //       g.todos.forEach((elt) => {
+  //         var date = elt.date;
+  //         var sender_psid = elt.person;
+  //         var item = elt.item;
+  //
+  //         var nowPlusHour = now.getHours() + 1;
+  //         var nowPlus10Min = now.getMinutes() + 10;
+  //         var nowPlusDay = now.getDate() + 1;
+  //
+  //         // if(date.toString() === now.toString() || date.toString() === nowPlusHour.toString() ||
+  //         //    date.toString() === nowPlus10Min.toString() || date.toString() === nowPlusDay.toString()) {
+  //         //
+  //         //    }
+  //         //  })
+  //
+  //         sendTodosToUsers.push({
+  //           user: sender_psid,
+  //           group: g.id,
+  //           date: date,
+  //           item: item
+  //         });
+  //   		// 	if (someLogicToCheckWhetherAReminderShouldGoOutNow) {
+  //   		// 		groupsToSendRemindersTo.push(g, reminderToSendOut);
+  //   		// 		markReminderAsSent();
+  //   		// 	}
+  //   		// })
+  //   		// sendOutRemindersToAllGroupsIn(groupsToSendRemindersTo);
+  //       console.log("UPDATE", sendTodosToUsers)
+  //   	 })
+  //     }
+  //   })
+  //   console.log("here")
+  //   sendTodos();
+  // })
 }
 
 var sendTodos = function() {
@@ -69,7 +70,7 @@ var sendTodos = function() {
     response = {
       "text": `From Group "${group}," you have task "${item}" due on date ${date} at time ${time}`
     }
-    console.log("!!!!", response)
+
     sendToUsers.callSendAPI(sender_psid, response);
   })
 }
