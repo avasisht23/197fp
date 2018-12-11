@@ -67,12 +67,12 @@ var sendTodos = function() {
     }
 
     sendToUsers.callSendAPI(sender_psid, response);
+  }, function() {
+    process.exit();
   })
 }
 
 scheduler();
-
-process.exit();
 
 var schedulerTask = {
   scheduler: scheduler
