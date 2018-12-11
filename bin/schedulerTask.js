@@ -35,7 +35,7 @@ function scheduler() {
           //    }
           //  })
 
-          sendTodosToGroups.push({
+          sendTodosToUsers.push({
             user: sender_psid,
             group: g.id,
             date: date,
@@ -48,6 +48,7 @@ function scheduler() {
     		// 	}
     		// })
     		// sendOutRemindersToAllGroupsIn(groupsToSendRemindersTo);
+        console.log(sendTodosToUsers)
     	})
     })
   })
