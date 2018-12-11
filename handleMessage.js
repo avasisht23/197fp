@@ -383,8 +383,8 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
       result.todos.forEach(function(e) {
         var id = e.person;
         var item = e.item;
-        var date = e.deadline.toLocaleDateString();
-        var time = "" + e.deadline.getHours() + ":" + e.deadline.getMinutes() + ":" + e.deadline.getSeconds();
+        var date = e.date.toLocaleDateString();
+        var time = "" + e.date.getHours() + ":" + e.date.getMinutes() + ":" + e.date.getSeconds();
 
         response = {
           "text": `${id} has to do - ${item} - by ${date} at ${time}`
