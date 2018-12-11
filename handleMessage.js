@@ -387,50 +387,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
         sendBack.callSendAPI(sender_psid, response);
       })
 
-      response = {
-        "attachment": {
-          "type": "template",
-          "payload": {
-            "template_type": "generic",
-            "elements": [{
-              "title": `Those are the todos for group: "${groupID}"`,
-              "subtitle": "Select what you'd like to do next...",
-              //"image_url": attachment_url,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": "Create Group!",
-                  "payload": "Create Group!",
-                },
-                {
-                  "type": "postback",
-                  "title": "Join Group!",
-                  "payload": "Join Group!",
-                }
-              ],
-            },
-            {
-              "title": "OR",
-              "subtitle": "Manage Todos",
-              //"image_url": attachment_url,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": "Add Todo!",
-                  "payload": "Add Todo!",
-                },
-                {
-                  "type": "postback",
-                  "title": "Get Todos!",
-                  "payload": "Get Todos!",
-                }
-              ],
-            }]
-          }
-        }
-      }
-
-      sendBack.callSendAPI(sender_psid, response);
+      
     }
   })
 }
