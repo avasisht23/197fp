@@ -48,11 +48,13 @@ function scheduler() {
       }
     })
     console.log("here")
-    sendTodos();
+    sendTodos(function() {
+      process.exit();
+    });
   })
 }
 
-var sendTodos = function() {
+var sendTodos = function(callback) {
   let response;
 
   sendTodosToUsers.forEach((todo) => {
@@ -69,7 +71,7 @@ var sendTodos = function() {
     sendToUsers.callSendAPI(sender_psid, response);
   })
 
-  process.exit();
+  callback();
 }
 
 scheduler();
