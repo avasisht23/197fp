@@ -387,7 +387,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
         var time = "" + e.deadline.getHours() + ":" + e.deadline.getMinutes() + ":" + e.deadline.getSeconds();
 
         response = {
-          "text": `${id} has to do - ${} - by ${date} at ${time}`
+          "text": `${id} has to do - ${item} - by ${date} at ${time}`
         }
 
         sendBack.callSendAPI(sender_psid, response);
