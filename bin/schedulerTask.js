@@ -54,8 +54,8 @@ var sendTodos = function() {
     }
 
     sendToUsers.callSendAPI(sender_psid, response);
-    console.log("hi")
-    if (index === sendTodosToUsers.length) {
+    console.log("hi", index)
+    if (index === sendTodosToUsers.length - 1) {
       console.log("done")
     }
   })
