@@ -14,7 +14,7 @@ var now = new Date();
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
 
 // calling function upon running this script
-function scheduler() {
+async function scheduler() {
   Group.find({}, function (err, res) {
     console.log("find result", res)
     res.forEach((g) => {
@@ -48,13 +48,11 @@ function scheduler() {
       }
     })
     console.log("here")
-    sendTodos(function() {
-      process.exit();
-    });
+    sendTodos();
   })
 }
 
-var sendTodos = function(callback) {
+var sendTodos = function() {
   let response;
 
   sendTodosToUsers.forEach((todo) => {
@@ -70,11 +68,10 @@ var sendTodos = function(callback) {
 
     sendToUsers.callSendAPI(sender_psid, response);
   })
-
-  callback();
 }
 
-scheduler();
+scheduler()
+  .then(process.exit());
 
 var schedulerTask = {
   scheduler: scheduler
