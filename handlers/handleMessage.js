@@ -340,30 +340,28 @@ var addTodo = function(response, userInfo, sender_psid, received_message) {
   } else {
     var groupID = received_message.text;
 
-    Group.find( { id: groupID}, function (err, result) {
+    Group.findOne( { id: groupID}, function (err, result) {
       console.log("find result", result)
-      if (result.length === 0) {
+      if (result) {
         console.log("Group does not exist!")
         userInfo[sender_psid].wantsToAddTodo = false;
         response = {
           "text": `Group does not exist. Reinitiate convo by typing "Hello" and create it!`
         }
         sendBack.callSendAPI(sender_psid, response);
-      } else {
-        console.log("!!JJ!!", result.members)
+      } else if (result.members.includes(sender_psid)){
         console.log("Group exists! Will add todo now!")
         userInfo[sender_psid].todoGroupWasGiven = received_message.text;
 
         sendBack.callSendAPI(sender_psid, response);
+      } else {
+        console.log("User not in group! Cannot add todo")
+        userInfo[sender_psid].wantsToAddTodo = false;
+        response = {
+          "text": `User not in group and cannot add todo! Reinitiate convo by typing "Hello" and join it!`
+        }
+        sendBack.callSendAPI(sender_psid, response);
       }
-      // else {
-      //   console.log("User not in group! Cannot add todo")
-      //   userInfo[sender_psid].wantsToAddTodo = false;
-      //   response = {
-      //     "text": `User not in group and cannot add todo! Reinitiate convo by typing "Hello" and join it!`
-      //   }
-      //   sendBack.callSendAPI(sender_psid, response);
-      // }
     })
   }
 }
@@ -372,7 +370,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
   var groupID = received_message.text;
 
   Group.findOne( { id: groupID}, function (err, result) {
-    console.log("!!!!!!find result", result.todos)
+    console.log("!!!!!!find result", result)
     if (result.length === 0) {
       console.log("Group does not exist!")
       userInfo[sender_psid].wantsToGetTodos = false;
