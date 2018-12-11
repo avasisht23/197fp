@@ -400,8 +400,8 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
           "payload": {
             "template_type": "generic",
             "elements": [{
-              "title": `Those are the todos for group "${groupID}"`,
-              "subtitle": "Select what you'd like to do next...",
+              "title": `Those are the todos for group "${groupID}."`,
+              "subtitle": `You are User "${sender_psid}". Give me a task!`,
               //"image_url": attachment_url,
               "buttons": [
                 {
