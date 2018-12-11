@@ -270,7 +270,7 @@ var addTodo = function(response, userInfo, sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": `You have added todo: "${todo}" to group "${groupID}, due ${received_message.text}"`,
+                      "title": `You have added todo: "${todo}" to group "${groupID}"`,
                       "subtitle": "Select what you'd like to do next...",
                       //"image_url": attachment_url,
                       "buttons": [
@@ -393,7 +393,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
           "payload": {
             "template_type": "generic",
             "elements": [{
-              "title": `Those are the todos for group: "${groupID}"`,
+              "title": `Those are the todos for group "${groupID}"`,
               "subtitle": "Select what you'd like to do next...",
               //"image_url": attachment_url,
               "buttons": [
