@@ -362,8 +362,8 @@ var addTodo = function(response, userInfo, sender_psid, received_message) {
 var getTodos = function(response, userInfo, sender_psid, received_message) {
   var groupID = received_message.text;
 
-  Group.find( { id: groupID}, function (err, result) {
-    console.log("!!!!!!find result", result)
+  Group.findOne( { id: groupID}, function (err, result) {
+    console.log("!!!!!!find result", result.todos)
     if (result.length === 0) {
       console.log("Group does not exist!")
       userInfo[sender_psid].wantsToGetTodos = false;
@@ -372,7 +372,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
       }
       sendBack.callSendAPI(sender_psid, response);
     } else {
-      console.log("Group exists! Will add todo now!")
+      console.log("Group exists! Getting todos")
       response = {
         "text": `Check!`
       }
