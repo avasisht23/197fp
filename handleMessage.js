@@ -374,17 +374,11 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
     } else {
       console.log("Group exists! Getting todos")
 
-      response = {
-        "text": `Below are the todos for ${groupID}`
-      }
-
-      sendBack.callSendAPI(sender_psid, response);
-
       result.todos.forEach(function(e) {
         var id = e.person;
         var item = e.item;
         var date = e.date.toLocaleDateString();
-        var time = "" + e.date.getHours() + ":" + e.date.getMinutes() + ":" + e.date.getSeconds();
+        var time = e.data.toLocaleTimeString();
 
         response = {
           "text": `${id} has to do - ${item} - by ${date} at ${time}`
@@ -392,6 +386,51 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
 
         sendBack.callSendAPI(sender_psid, response);
       })
+
+      response = {
+        "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "generic",
+            "elements": [{
+              "title": `Those are the todos for group: "${groupID}"`,
+              "subtitle": "Select what you'd like to do next...",
+              //"image_url": attachment_url,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": "Create Group!",
+                  "payload": "Create Group!",
+                },
+                {
+                  "type": "postback",
+                  "title": "Join Group!",
+                  "payload": "Join Group!",
+                }
+              ],
+            },
+            {
+              "title": "OR",
+              "subtitle": "Manage Todos",
+              //"image_url": attachment_url,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": "Add Todo!",
+                  "payload": "Add Todo!",
+                },
+                {
+                  "type": "postback",
+                  "title": "Get Todos!",
+                  "payload": "Get Todos!",
+                }
+              ],
+            }]
+          }
+        }
+      }
+
+      sendBack.callSendAPI(sender_psid, response);
     }
   })
 }
