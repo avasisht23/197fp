@@ -66,7 +66,7 @@ var sendTodos = function() {
     var item = todo.item;
 
     response = {
-      "text": `From Group "${group}," you have task "${item}" due on date ${date} at time ${time}`
+      "text": `From Group "${group}," you as user id: "${sender_psid}" have task "${item}" due on date ${date} at time ${time}`
     }
 
     sendToUsers.callSendAPI(sender_psid, response);
