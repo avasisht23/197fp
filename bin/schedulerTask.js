@@ -20,11 +20,11 @@ function scheduler() {
     console.log("find result", res)
     res.forEach((g) => {
       if (g.todos.length !== 0) {
-        g.todos.forEach((todo) => {
-
-          var date = g.todos[todo].date;
+        g.todos.forEach((elt) => {
+          console.log("elt", g.todos[elt])
+          var date = g.todos[elt].date;
           var sender_psid = g.todos[todo].person;
-          var item = g.todos[todo].item;
+          var item = g.todos[elt].item;
 
           var nowPlusHour = now.getHours() + 1;
           var nowPlus10Min = now.getMinutes() + 10;
