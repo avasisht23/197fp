@@ -349,10 +349,17 @@ var addTodo = function(response, userInfo, sender_psid, received_message) {
           "text": `Group does not exist. Reinitiate convo by typing "Hello" and create it!`
         }
         sendBack.callSendAPI(sender_psid, response);
-      } else {
+      } else if (result.members.includes(sender_psid)) {
         console.log("Group exists! Will add todo now!")
         userInfo[sender_psid].todoGroupWasGiven = received_message.text;
 
+        sendBack.callSendAPI(sender_psid, response);
+      } else {
+        console.log("User not in group! Cannot add todo")
+        userInfo[sender_psid].wantsToAddTodo = false;
+        response = {
+          "text": `User not in group and cannot add todo! Reinitiate convo by typing "Hello" and join it!`
+        }
         sendBack.callSendAPI(sender_psid, response);
       }
     })
@@ -371,7 +378,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
         "text": `Group does not exist. Reinitiate convo by typing "Hello" and create it!`
       }
       sendBack.callSendAPI(sender_psid, response);
-    } else {
+    } else if (result.members.includes(sender_psid)) {
       console.log("Group exists! Getting todos")
 
       result.todos.forEach(function(e) {
@@ -431,6 +438,13 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
       }
 
       userInfo[sender_psid].wantsToGetTodos = false;
+      sendBack.callSendAPI(sender_psid, response);
+    } else {
+      console.log("User not in group")
+      userInfo[sender_psid].wantsToGetTodos = false;
+      response = {
+        "text": `User not in group and cannot get todos. Reinitiate convo by typing "Hello" and join it!`
+      }
       sendBack.callSendAPI(sender_psid, response);
     }
   })
