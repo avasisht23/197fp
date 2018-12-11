@@ -28,7 +28,7 @@ async function scheduler() {
           var nowPlus10Min = now.getMinutes() + 10;
           var nowPlusDay = now.getDate() + 1;
           console.log("now", now.toLocaleDateString());
-          console.log("tomorrow", nowPlusDay.toLocaleDateString);
+          console.log("tomorrow", nowPlusDay.toLocaleDateString());
           console.log("now", date.toLocaleDateString());
 
           // if(date.toString() === now.toString() || date.toString() === nowPlusHour.toString() ||
@@ -71,7 +71,6 @@ var sendTodos = function() {
 }
 
 scheduler()
-  .then(process.exit());
 
 var schedulerTask = {
   scheduler: scheduler
