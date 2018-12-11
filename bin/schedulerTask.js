@@ -8,10 +8,10 @@ var app = express();
 var sendTodosToUsers = [];
 var sendToUsers = require('../handlers/callSendApi.js');
 
-var Group = require('../models/groups');
+//var Group = require('../models/groups');
 var now = new Date();
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
+//mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
 
 // calling function upon running this script
 
