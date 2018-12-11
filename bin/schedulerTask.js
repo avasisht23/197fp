@@ -19,6 +19,8 @@ function scheduler() {
   Group.find({}, function (err, res) {
     console.log("find result", res)
     res.forEach((g) => {
+      console.log("todos length", g.todos.length)
+      console.log("todos", g.todos)
       if (g.todos.length !== 0) {
         g.todos.forEach((elt) => {
           console.log("elt", g.todos[elt])
