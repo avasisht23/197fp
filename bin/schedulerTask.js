@@ -35,7 +35,7 @@ function scheduler() {
           //  })
 
           sendTodosToUsers.push({
-            user: sender_psid,
+            person: sender_psid,
             group: g.id,
             date: date,
             item: item
