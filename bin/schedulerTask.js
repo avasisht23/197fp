@@ -19,8 +19,9 @@ function scheduler() {
   Group.find({}, function (err, res) {
     console.log("find result", res)
     res.forEach((g) => {
-      g.todos.forEach((todo) => {
-        if (g.todos[todo].length !== 0) {
+      if (g.todos.length !== 0) {
+        g.todos.forEach((todo) => {
+
           var date = g.todos[todo].date;
           var sender_psid = g.todos[todo].person;
           var item = g.todos[todo].item;
@@ -41,7 +42,6 @@ function scheduler() {
             date: date,
             item: item
           });
-        }
     		// 	if (someLogicToCheckWhetherAReminderShouldGoOutNow) {
     		// 		groupsToSendRemindersTo.push(g, reminderToSendOut);
     		// 		markReminderAsSent();
@@ -49,7 +49,8 @@ function scheduler() {
     		// })
     		// sendOutRemindersToAllGroupsIn(groupsToSendRemindersTo);
         console.log("UPDATE", sendTodosToUsers)
-    	})
+    	 })
+      }
     })
   })
   console.log("here")
