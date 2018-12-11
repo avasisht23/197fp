@@ -342,7 +342,7 @@ var addTodo = function(response, userInfo, sender_psid, received_message) {
 
     Group.findOne( { id: groupID}, function (err, result) {
       console.log("find result", result)
-      if (result) {
+      if (!result) {
         console.log("Group does not exist!")
         userInfo[sender_psid].wantsToAddTodo = false;
         response = {
