@@ -20,7 +20,6 @@ function scheduler() {
     console.log("find result", res)
     res.forEach((g) => {
       g.todos.forEach((todo) => {
-        console.log("!!!!!!!", todo)
         if (g.todos[todo]) {
           var date = g.todos[todo].date;
           var sender_psid = g.todos[todo].person;
@@ -57,6 +56,7 @@ function scheduler() {
 
 var sendTodos = function() {
   let response;
+
   sendTodosToUsers.forEach((todo) => {
     var sender_psid = sendTodosToUsers[todo].person;
     var date = sendTodosToUsers[todo].date.toLocaleDateString();
@@ -67,7 +67,7 @@ var sendTodos = function() {
     response = {
       "text": `From Group "${group}," you have task "${item}" due on date ${date} at time ${time}`
     }
-
+    console.log("!!!!", response)
     sendToUsers.callSendAPI(sender_psid, response);
   })
 }
