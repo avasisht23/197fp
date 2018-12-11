@@ -378,7 +378,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
         var id = e.person;
         var item = e.item;
         var date = e.date.toLocaleDateString();
-        var time = e.data.toLocaleTimeString();
+        var time = e.date.toLocaleTimeString();
 
         response = {
           "text": `User ID: ${id} has to do - ${item} - by ${date} at ${time}`
@@ -387,7 +387,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
         sendBack.callSendAPI(sender_psid, response);
       })
 
-      
+
     }
   })
 }
