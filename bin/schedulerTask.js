@@ -6,7 +6,7 @@ var request = require('request')
 var app = express();
 
 var sendTodosToUsers = [];
-var sendToUsers = require('./handlers/callSendApi.js');
+var sendToUsers = require('../handlers/callSendApi.js');
 
 var Group = require('../models/groups');
 var now = new Date();
@@ -35,7 +35,8 @@ var scheduler = function() {
         //    }
         //  })
 
-        sendTodosToGroups[sender_psid].push({
+        sendTodosToGroups.push({
+          user: sender_psid,
           group: g,
           date: date,
           item: item
@@ -55,11 +56,12 @@ var scheduler = function() {
 
 var sendTodos = function() {
   let response;
-  sendTodosToUsers.forEach((sender_psid) => {
-    var date = sendTodosToUsers[sender_psid].date.toLocaleDateString();
-    var time = sendTodosToUsers[sender_psid].date.toLocaleTimeString();
-    var group = sendTodosToUsers[sender_psid].group;
-    var item = sendTodosToUsers[sender_psid].item;
+  sendTodosToUsers.forEach((todo) => {
+    var sender_psid = sendTodosToUsers[todo].person;
+    var date = sendTodosToUsers[todo].date.toLocaleDateString();
+    var time = sendTodosToUsers[todo].date.toLocaleTimeString();
+    var group = sendTodosToUsers[todo].group;
+    var item = sendTodosToUsers[todo].item;
 
     response = {
       "text": `From Group "${group}," you have task "${item}" due on date ${date} at time ${time}`

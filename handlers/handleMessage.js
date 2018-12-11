@@ -6,7 +6,7 @@ var request = require('request')
 var app = express();
 
 var sendBack = require('./callSendApi.js');
-var Group = require('./models/groups');
+var Group = require('../models/groups');
 
 var token = process.env.FB_VERIFY_TOKEN;
 var access = process.env.FB_ACCESS_TOKEN;
