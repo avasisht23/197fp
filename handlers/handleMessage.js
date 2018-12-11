@@ -371,7 +371,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
 
   Group.findOne( { id: groupID}, function (err, result) {
     console.log("!!!!!!find result", result)
-    if (result.length === 0) {
+    if (!result) {
       console.log("Group does not exist!")
       userInfo[sender_psid].wantsToGetTodos = false;
       response = {
