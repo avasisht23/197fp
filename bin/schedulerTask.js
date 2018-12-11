@@ -19,15 +19,11 @@ function scheduler() {
   Group.find({}, function (err, res) {
     console.log("find result", res)
     res.forEach((g) => {
-      console.log("todos length", g.todos.length)
-      console.log("todos", g.todos)
       if (g.todos.length !== 0) {
-        console.log("todos elt", g.todos[0])
         g.todos.forEach((elt) => {
-          console.log("elt", elt)
-          var date = g.todos[elt].date;
-          var sender_psid = g.todos[todo].person;
-          var item = g.todos[elt].item;
+          var date = elt.date;
+          var sender_psid = elt.person;
+          var item = elt.item;
 
           var nowPlusHour = now.getHours() + 1;
           var nowPlus10Min = now.getMinutes() + 10;
