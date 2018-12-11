@@ -380,7 +380,7 @@ var getTodos = function(response, userInfo, sender_psid, received_message) {
 
       sendBack.callSendAPI(sender_psid, response);
 
-      result.forEach(function(e) {
+      result.todos.forEach(function(e) {
         var id = e.person;
         var item = e.item;
         var date = e.deadline.toLocaleDateString();
