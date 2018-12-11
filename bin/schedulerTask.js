@@ -14,7 +14,7 @@ var now = new Date();
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/197fp')
 
 // calling function upon running this script
-async function scheduler() {
+function scheduler() {
   Group.find({}, function (err, res) {
     console.log("find result", res)
     res.forEach((g) => {
@@ -61,7 +61,7 @@ var sendTodos = function() {
   })
 }
 
-scheduler()
+scheduler();
 
 var schedulerTask = {
   scheduler: scheduler
